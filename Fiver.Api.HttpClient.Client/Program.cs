@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Fiver.Api.HttpClient.Client
@@ -69,7 +70,10 @@ namespace Fiver.Api.HttpClient.Client
             var response = await HttpRequestFactory.Get(requestUri);
 
             Console.WriteLine($"Status: {response.StatusCode}");
-            Console.WriteLine(response.ContentAsString());
+            //Console.WriteLine(response.ContentAsString());
+            var outputModel = response.ContentAsType<List<MovieOutputModel>>();
+            outputModel.ForEach(item => 
+                            Console.WriteLine("{0} - {1}", item.Id, item.Title));
         }
 
         private static async Task GetItem()
@@ -78,7 +82,9 @@ namespace Fiver.Api.HttpClient.Client
             var response = await HttpRequestFactory.Get(requestUri);
 
             Console.WriteLine($"Status: {response.StatusCode}");
-            Console.WriteLine(response.ContentAsString());
+            //Console.WriteLine(response.ContentAsString());
+            var outputModel = response.ContentAsType<MovieOutputModel>();
+            Console.WriteLine("{0} - {1}", outputModel.Id, outputModel.Title);
         }
 
         private static async Task Post()
@@ -95,7 +101,9 @@ namespace Fiver.Api.HttpClient.Client
             var response = await HttpRequestFactory.Post(requestUri, model);
 
             Console.WriteLine($"Status: {response.StatusCode}");
-            Console.WriteLine(response.ContentAsString());
+            //Console.WriteLine(response.ContentAsString());
+            var outputModel = response.ContentAsType<MovieOutputModel>();
+            Console.WriteLine("{0} - {1}", outputModel.Id, outputModel.Title);
         }
 
         private static async Task Put()
@@ -112,7 +120,6 @@ namespace Fiver.Api.HttpClient.Client
             var response = await HttpRequestFactory.Put(requestUri, model);
 
             Console.WriteLine($"Status: {response.StatusCode}");
-            Console.WriteLine(response.ContentAsString());
         }
 
         private static async Task Patch()
@@ -131,7 +138,6 @@ namespace Fiver.Api.HttpClient.Client
             var response = await HttpRequestFactory.Patch(requestUri, model);
 
             Console.WriteLine($"Status: {response.StatusCode}");
-            Console.WriteLine(response.ContentAsString());
         }
 
         private static async Task Delete()
@@ -140,7 +146,6 @@ namespace Fiver.Api.HttpClient.Client
             var response = await HttpRequestFactory.Delete(requestUri);
 
             Console.WriteLine($"Status: {response.StatusCode}");
-            Console.WriteLine(response.ContentAsString());
         }
     }
 }
